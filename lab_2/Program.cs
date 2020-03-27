@@ -11,8 +11,6 @@ namespace lab_2
     {
         static void Main()
         {
-            Console.ReadLine();
-
             foreach (string item in Utils_2.GetFilesAndFolders(AppDomain.CurrentDomain.BaseDirectory))
             {
                 Console.WriteLine(item);
