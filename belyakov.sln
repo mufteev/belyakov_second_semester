@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_1_dll", "lab_1_dll\lab_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_2", "lab_2\lab_2.csproj", "{D9152B7D-D2A5-4E38-B20A-67494D2B4F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_3", "lab3\lab_3.csproj", "{45FA2EF3-FDE6-41C5-89EA-3BACDF5BF21C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_3", "lab_3\lab_3.csproj", "{45FA2EF3-FDE6-41C5-89EA-3BACDF5BF21C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
