@@ -48,11 +48,11 @@ namespace lab_1
                             {
                                 if (args[0] == "d")
                                 {
-                                    x.Mask = Utils.ToDec(x.Mask).ToString();
+                                    x.Mask = Utils_1.ToDec(x.Mask).ToString();
                                 }
                                 else if (args[0] == "b")
                                 {
-                                    x.Mask = Utils.ToBin(int.Parse(x.Mask));
+                                    x.Mask = Utils_1.ToBin(int.Parse(x.Mask));
                                 }
 
                                 return x;
