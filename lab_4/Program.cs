@@ -41,7 +41,7 @@ namespace lab_4
                 foreach (SheduleItem item in Agility.GetShedule(link))
                 {
                     Console.WriteLine($"{item.Time} - {item.Title}");
-                    sw.WriteLine($"[{item.Time} - {item.Title}]({item.Link})");
+                    sw.WriteLine($"[{item.Time} - {item.Title}]({item.Link})\n");
                 }
             }
 
