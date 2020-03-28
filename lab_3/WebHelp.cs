@@ -45,7 +45,6 @@ namespace lab_3
         private string _dir;
         private int _count;
         private string _currentFile;
-        private bool _isRun;
 
         private string _current;
 
@@ -82,7 +81,6 @@ namespace lab_3
         {
             for (int i = 0; i < _count; i++)
             {
-                _isRun = false;
                 _current = $"{i + 1}/{_count}";
                 _currentFile = Path.GetFileName(_queue[i]);
                 var fullPath = Path.Combine(_dir, _currentFile);
