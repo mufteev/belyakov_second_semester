@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab_1_dll
 {
-    public static class Utils_1
+    public static class Utils
     {
         /// <summary>
         /// Переводит из двоичной в десятичную систему
