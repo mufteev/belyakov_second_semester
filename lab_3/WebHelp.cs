@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
+using System.Web;
+//using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -45,6 +48,7 @@ namespace lab_3
         private string _dir;
         private int _count;
         private string _currentFile;
+        private HttpClientDownloadWithProgress _httpClient;
 
         private string _current;
 
@@ -53,28 +57,14 @@ namespace lab_3
             _queue = links;
             _count = links.Count;
             _dir = pathDir;
+
+            _httpClient = new HttpClientDownloadWithProgress();
+            _httpClient.ProgressChanged += _httpClient_ProgressChanged;
         }
 
-        private void _webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private void _httpClient_ProgressChanged(long? totalFileSize, long totalBytesDownloaded, double? progressPercentage)
         {
-            var current = e.BytesReceived;
-            var total = e.TotalBytesToReceive;
-            var percent = (double)current / total * 5;
-            Console.Write($"\r({_current}) {_currentFile} {new string('.', (int)percent)}");
-        }
-
-        private Task WaitForDownloadComplete(string link, string path)
-        {
-            using (var _webClient = new WebClient())
-            {                
-                _webClient.DownloadProgressChanged += _webClient_DownloadProgressChanged;
-                var task = _webClient.DownloadFileTaskAsync(link, path);
-                task.ContinueWith(_ =>
-                {
-                    _webClient.DownloadProgressChanged -= _webClient_DownloadProgressChanged;
-                }, TaskContinuationOptions.ExecuteSynchronously);
-                return task; 
-            }
+            Console.Write($"\r({_current}) {_currentFile} {new string('.', (int)(progressPercentage * 5))}");
         }
 
         public async void Download()
@@ -84,11 +74,18 @@ namespace lab_3
                 _current = $"{i + 1}/{_count}";
                 _currentFile = Path.GetFileName(_queue[i]);
                 var fullPath = Path.Combine(_dir, _currentFile);
-                await WaitForDownloadComplete(_queue[i], fullPath);
-                // Это треш, асинхронный метод скачивания работает как попало...
-                Thread.Sleep(10);
+
+                _httpClient.DownloadUrl = _queue[i];
+                _httpClient.DestinationFilePath = fullPath;
+                await _httpClient.StartDownload();
+
                 Console.WriteLine($"\r({_current}) {_currentFile}      ");
             }
+        }
+
+        ~WebDownloadFilesOnDir()
+        {
+            _httpClient?.Dispose();
         }
     }
 }
