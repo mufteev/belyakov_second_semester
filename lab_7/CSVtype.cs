@@ -14,9 +14,9 @@ namespace lab_7
         [Name("name")]
         public string Name { get; set; }
         [Name("time")]
-        public int Time { get; set; }
+        public int Time { get; set; } // X
         [Name("power")]
-        public int Power { get; set; }
+        public int Power { get; set; } // Y
 
     }
 }

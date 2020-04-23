@@ -17,10 +17,8 @@ namespace lab_7
                 name TEXT NOT NULL,
                 time INT  NOT NULL DEFAULT(0),
                 power INT NOT NULL DEFAULT(0)
-            );"; // так можно переносить строки в коде
+            );";
         public static string QueryReset = "DELETE FROM Smartphones";
-        public static string QueryInsert = "INSERT INTO Smartphones(power, price) VALUES(10.0, 15000)";
-        public static string QuerySelect = "SELECT count(*) FROM Smartphones";
 
         public static void RefreshTable()
         {
@@ -63,30 +61,20 @@ namespace lab_7
             {
                 conn.Open();
                 SQLiteCommand comm = new SQLiteCommand(QueryReset, conn);
-                comm.ExecuteNonQuery();
-            };
-        }
-
-        public static void InsertRecord()
-        {
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                SQLiteCommand comm = new SQLiteCommand(QueryInsert, conn);
-                comm.ExecuteNonQuery();
+                try
+                {
+                    comm.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("no such table"))
+                    {
+                        conn.Close();
+                        File.Delete(NameFileDB);
+                        CreateTable();
+                    }
+                }
             }
-        }
-
-        public static int GetCountRecord()
-        {
-            int count = 0;
-            using (SQLiteConnection conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                SQLiteCommand comm = new SQLiteCommand(QuerySelect, conn);
-                count = Convert.ToInt32(comm.ExecuteScalar());
-            }
-            return count;
         }
     }
 }

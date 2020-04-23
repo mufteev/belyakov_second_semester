@@ -40,7 +40,6 @@ namespace lab_7
                 }))
                 {
                     smartphones = cr.GetRecords<CSVtype>().ToList();
-
                     SQLiteIUtils.RefreshTable();
                     SQLiteIUtils.InsertRecords(smartphones);
                 }
