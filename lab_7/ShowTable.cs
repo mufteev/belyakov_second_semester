@@ -21,10 +21,6 @@ namespace lab_7
         {
             InitializeComponent();
         }
-        SQLiteConnection conn;
-        SQLiteCommand cmd;
-        SQLiteDataReader reader;
-        DataTable dt;
 
         private List<CSVtype> smartphones;
 
@@ -48,18 +44,9 @@ namespace lab_7
 
         private void button1_Click(object sender, EventArgs e)
         {
-            conn = new SQLiteConnection("Data Source=Pareto.db");
-            string query = "Select id, name, time, power from Smartphones";
-            cmd = new SQLiteCommand(query, conn);
+            var dt = SQLiteIUtils.GetTable();
 
-            dt = new DataTable();
             dataGridViewSmart.DataSource = dt;
-
-            conn.Open();
-            reader = cmd.ExecuteReader();
-            dt.Clear();
-            dt.Load(reader);
-
             smartphones = dt
                 .AsEnumerable()
                 .Select(x => new CSVtype
@@ -71,11 +58,22 @@ namespace lab_7
                 })
                 .ToList();
 
-            conn.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (smartphones is null)
+            {
+                MessageBox.Show("Сначала подгрузите данные");
+                return;
+            }
+
+            if (smartphones.Count == 0)
+            {
+                MessageBox.Show("Данные отсутствуют");
+                return;
+            }
+
             using (var f = new ShowChart(smartphones))
             {
                 f.ShowDialog();

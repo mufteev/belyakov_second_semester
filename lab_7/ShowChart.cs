@@ -94,6 +94,12 @@ namespace lab_7
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (paretos.Count == 0)
+            {
+                MessageBox.Show("Вы не отобрали парето-оптимальные точки");
+                return;
+            }
+
             if (sfdCSV.ShowDialog() == DialogResult.OK)
             {
                 using (var sw = new StreamWriter(sfdCSV.FileName))

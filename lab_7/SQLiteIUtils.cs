@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace lab_7
 {
@@ -74,6 +76,30 @@ namespace lab_7
                         CreateTable();
                     }
                 }
+            }
+        }
+
+        public static DataTable GetTable()
+        {
+            using (var conn = new SQLiteConnection(connectionString))
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT id, name, time, power FROM Smartphones";
+                var dt = new DataTable();
+                try
+                {
+                    dt.Load(cmd.ExecuteReader());
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("no such table"))
+                        MessageBox.Show("Сначала экспортируйте данные из CSV");
+                    else
+                        throw ex;
+                }
+
+                return dt;
             }
         }
     }

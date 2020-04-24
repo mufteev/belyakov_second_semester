@@ -40,6 +40,7 @@
             // 
             // btn
             // 
+            this.btn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btn.Location = new System.Drawing.Point(2, 2);
             this.btn.Margin = new System.Windows.Forms.Padding(2);
             this.btn.Name = "btn";
