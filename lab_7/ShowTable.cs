@@ -24,7 +24,7 @@ namespace lab_7
 
         private List<CSVtype> smartphones;
 
-        private void btn_Click(object sender, EventArgs e)
+        private async void btn_Click(object sender, EventArgs e)
         {
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -36,6 +36,20 @@ namespace lab_7
                 }))
                 {
                     smartphones = cr.GetRecords<CSVtype>().ToList();
+
+                    var refreshResult = await MySQLUtils.RefreshTableAsync();
+                    if (refreshResult.Code != 0)
+                    {
+                        MessageBox.Show($"Error:\n{refreshResult.Message}");
+                        return;
+                    }
+
+                    var insertResult = await MySQLUtils.InsertRecordsAsync(smartphones);
+                    if (insertResult.Code != 0)
+                    {
+                        MessageBox.Show($"Error:\n{insertResult}");
+                        return;
+                    }
                     //SQLiteIUtils.RefreshTable();
                     //SQLiteIUtils.InsertRecords(smartphones);
                 }

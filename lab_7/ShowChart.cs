@@ -63,6 +63,15 @@ namespace lab_7
             paretos.Clear();
             nParetos.Clear();
 
+            if (sender is CheckBox thisCheckBox && thisCheckBox.Checked == false)
+            {
+                for (int i = 0; i < smarts.Count; i++)
+                {
+                    chart.Series[0].Points.AddXY(smarts[i].Time, smarts[i].Power);
+                }
+                return;
+            }
+
             var tag = (sender as CheckBox).Tag.ToString();
 
             for (int i = 0; i < smarts.Count; i++)
