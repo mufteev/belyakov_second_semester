@@ -10,7 +10,7 @@ namespace lab_7
     public class CSVtype
     {
         [Name("id")]
-        public long ID { get; set; }
+        public int ID { get; set; }
         [Name("name")]
         public string Name { get; set; }
         [Name("time")]

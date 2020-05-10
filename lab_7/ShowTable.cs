@@ -36,28 +36,35 @@ namespace lab_7
                 }))
                 {
                     smartphones = cr.GetRecords<CSVtype>().ToList();
-                    SQLiteIUtils.RefreshTable();
-                    SQLiteIUtils.InsertRecords(smartphones);
+                    //SQLiteIUtils.RefreshTable();
+                    //SQLiteIUtils.InsertRecords(smartphones);
                 }
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            var dt = SQLiteIUtils.GetTable();
+            //var dt = SQLiteIUtils.GetTable();
+            var response = await MySQLUtils.GetDataTableAsync();
 
-            dataGridViewSmart.DataSource = dt;
-            smartphones = dt
-                .AsEnumerable()
-                .Select(x => new CSVtype
-                {
-                    ID = x.Field<long>("id"),
-                    Name = x.Field<string>("name"),
-                    Power = x.Field<int>("power"),
-                    Time = x.Field<int>("time")
-                })
-                .ToList();
-
+            if (response.Code == 0 && response.Result is DataTable dt)
+            {
+                dataGridViewSmart.DataSource = dt;
+                smartphones = dt
+                    .AsEnumerable()
+                    .Select(x => new CSVtype
+                    {
+                        ID = x.Field<int>("id"),
+                        Name = x.Field<string>("name"),
+                        Power = x.Field<int>("power"),
+                        Time = x.Field<int>("time")
+                    })
+                    .ToList();
+            }
+            else
+            {
+                MessageBox.Show($"Error:\n{response.Message}", "Парето");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
