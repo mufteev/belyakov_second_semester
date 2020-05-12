@@ -46,7 +46,7 @@
             this.btn.Name = "btn";
             this.btn.Size = new System.Drawing.Size(177, 31);
             this.btn.TabIndex = 0;
-            this.btn.Text = "Импорт CSV -> SQLite";
+            this.btn.Text = "Импорт CSV -> MySQL";
             this.btn.UseVisualStyleBackColor = true;
             this.btn.Click += new System.EventHandler(this.btn_Click);
             // 
@@ -97,7 +97,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(175, 29);
             this.button1.TabIndex = 2;
-            this.button1.Text = "Подгрузить данные из SQLite";
+            this.button1.Text = "Подгрузить данные из MySQL";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

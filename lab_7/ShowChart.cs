@@ -47,8 +47,8 @@ namespace lab_7
                 chart.Series[0].Points.AddXY(smarts[i].Time, smarts[i].Power);
             }
 
-            chart.ChartAreas[0].AxisX.Interval = smarts.Count / 10;
-            chart.ChartAreas[0].AxisY.Interval = smarts.Count / 10;
+            //chart.ChartAreas[0].AxisX.Interval = smarts.Count / 10;
+            //chart.ChartAreas[0].AxisY.Interval = smarts.Count / 10;
         }
 
         private void checkBox_Click(object sender, EventArgs e)

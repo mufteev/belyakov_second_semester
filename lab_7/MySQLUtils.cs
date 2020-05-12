@@ -130,7 +130,7 @@ namespace lab_7
                 var cmd = msc.CreateCommand();
                 cmd.CommandText = @"create table Smartphones
                                     (
-                                        id    int                      not null
+                                        id    int     auto_increment   not null
                                             primary key,
                                         name  varchar(15) charset utf8 not null,
                                         time  int default 0            not null,

@@ -47,38 +47,51 @@ namespace lab_7
                     var insertResult = await MySQLUtils.InsertRecordsAsync(smartphones);
                     if (insertResult.Code != 0)
                     {
-                        MessageBox.Show($"Error:\n{insertResult}");
+                        MessageBox.Show($"Error:\n{insertResult.Message}");
                         return;
                     }
+
+                    MessageBox.Show("Импорт данных прошёл успешно", "Парето");
+
                     //SQLiteIUtils.RefreshTable();
                     //SQLiteIUtils.InsertRecords(smartphones);
                 }
             }
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             //var dt = SQLiteIUtils.GetTable();
-            var response = await MySQLUtils.GetDataTableAsync();
+            var response = MySQLUtils.GetDataTableAsync();
 
-            if (response.Code == 0 && response.Result is DataTable dt)
+            response.ContinueWith(task =>
             {
-                dataGridViewSmart.DataSource = dt;
-                smartphones = dt
-                    .AsEnumerable()
-                    .Select(x => new CSVtype
+                var result = task.Result;
+                if (result.Code == 0 && result.Result is DataTable dt)
+                {
+                    dataGridViewSmart.BeginInvoke((Action) (() =>
                     {
-                        ID = x.Field<int>("id"),
-                        Name = x.Field<string>("name"),
-                        Power = x.Field<int>("power"),
-                        Time = x.Field<int>("time")
-                    })
-                    .ToList();
-            }
-            else
-            {
-                MessageBox.Show($"Error:\n{response.Message}", "Парето");
-            }
+                        dataGridViewSmart.SuspendLayout();
+                        dataGridViewSmart.DataSource = dt;
+                        dataGridViewSmart.ResumeLayout();
+                    }));
+                    smartphones = dt
+                        .AsEnumerable()
+                        .Select(x => new CSVtype
+                        {
+                            ID = x.Field<int>("id"),
+                            Name = x.Field<string>("name"),
+                            Power = x.Field<int>("power"),
+                            Time = x.Field<int>("time")
+                        })
+                        .ToList();
+                }
+                else
+                {
+                    MessageBox.Show($"Error:\n{result.Message}", "Парето");
+                }
+            });
+
         }
 
         private void button2_Click(object sender, EventArgs e)
