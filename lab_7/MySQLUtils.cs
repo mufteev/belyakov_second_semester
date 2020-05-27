@@ -21,7 +21,7 @@ namespace lab_7
             Port       = 35006,
             UserID     = "soft0001",
             Password   = "FHA8t3tl",
-            Database   = "soft0001"
+            Database   = "soft0001_lab_8_transport"
         };
         private static MySqlConnection msc = new MySqlConnection(mscsb.ConnectionString);
 
